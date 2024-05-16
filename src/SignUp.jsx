@@ -1,10 +1,10 @@
 import { useState } from 'react';
-import { signInWithEmailAndPassword } from 'firebase/auth';
-import { auth } from './firebaseConfig';
-import './Login.css';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { auth } from './firebaseConfig.js';
+import './SignUp.css';
 
 // eslint-disable-next-line react/prop-types
-const Login = ({ onClose }) => {
+const SignUp = ({ onClose }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
@@ -14,8 +14,8 @@ const Login = ({ onClose }) => {
         setError('');
 
         try {
-            const userCredential = await signInWithEmailAndPassword(auth, email, password);
-            console.log('User logged in:', userCredential.user);
+            const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+            console.log('User signed up:', userCredential.user);
             onClose();
         } catch (error) {
             setError(error.message);
@@ -23,9 +23,9 @@ const Login = ({ onClose }) => {
     };
 
     return (
-        <div className="login-modal">
-            <div className="login-container">
-                <h2>Login</h2>
+        <div className="signup-modal">
+            <div className="signup-container">
+                <h2>Sign Up</h2>
                 <form onSubmit={handleSubmit}>
                     <div className="form-group">
                         <label htmlFor="email">Email:</label>
@@ -48,7 +48,7 @@ const Login = ({ onClose }) => {
                         />
                     </div>
                     {error && <p className="error">{error}</p>}
-                    <button type="submit">Login</button>
+                    <button type="submit">Sign Up</button>
                 </form>
                 <button onClick={onClose} className="close-btn">Close</button>
             </div>
@@ -56,4 +56,4 @@ const Login = ({ onClose }) => {
     );
 };
 
-export default Login;
+export default SignUp;
